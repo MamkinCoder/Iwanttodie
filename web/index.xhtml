@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://xmlns.jcp.org/jsf/html"
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
+<h:head>
+   <h:outputStylesheet library="css" name="mystyle.css" />
+   <h:outputScript target="body"> setInterval(function () {document.getElementById("myForm:myButtonId").click();}, 8000); </h:outputScript>
+</h:head>
+
+<h:body>
+<table class="myTable">
+   <tr>
+      <th colspan="2">
+         <h1 class="rainbow">Балахонов Ярослав Ильич, P3201, Вариант 9973</h1>
+      </th>
+   </tr>
+   <tr>
+      <td class="myTd">
+         <p class="plain_text">
+            <h:form id="myForm">
+               <h:commandButton id = "myButtonId" style="visibility: hidden;">
+                  <f:ajax render = "outputMessage" />
+               </h:commandButton>
+               <h2><h:outputText id = "outputMessage"
+                                 value = "#{dateTimeBean.dateOut}"
+               /></h2>
+            </h:form>
+            </p>
+      </td>
+   </tr>
+   <tr>
+       <td class="btTd" colspan="2">
+         <h:form>
+            <h:commandButton action = "area" value = "Далее" styleClass="submitButton" />
+         </h:form>
+       </td>
+   </tr>
+</table>
+</h:body>
+</html>

@@ -1,0 +1,149 @@
+html {
+    color: white;
+    font-family: "Comic Sans MS", cursive, sans-serif;
+    background-image: url("#{resource['images/BTmosh.gif']}"), url("#{resource['images/BTmosh.gif']}"), url("#{resource['images/crt.gif']}");
+    background-repeat: repeat-y, repeat-y, repeat-y;
+    background-size: 200px, 200px, 100%;
+    background-position: left, right, center;
+
+}
+
+body {
+
+}
+.smallbutton{
+    color: white;
+    padding: 5px 10px;
+    border-radius: 5px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 16px;
+    background:red;
+    animation:bganim 5s infinite;
+}
+.smallbutton:hover {
+    transition-duration: 0.2s;
+    border: 4px solid aqua;
+    background-color: white;
+    animation: none;
+    color: black;
+}
+.smallbutton.pushed{
+    transition-duration: 0.2s;
+    border: 4px solid aqua;
+    background-color: white;
+    animation: none;
+    color: black;
+}
+.submitButton {
+    background:red;
+    border: 4px solid white;
+    border-radius: 12px;
+    color: white;
+    padding: 10px 20px;
+    text-align: center;
+    display: inline-block;
+    font-size: 16px;
+    -webkit-animation-delay: 2s;
+    animation:bganim 5s infinite;
+    box-shadow: 3px 5px white;
+}
+
+.submitButton:hover {
+    transition-duration: 0.2s;
+    border: 4px solid aqua;
+    background-color: white;
+    animation: none;
+    color: black;
+}
+
+.submitButton:active {
+    box-shadow: 1px 1px white;
+    transform: translateY(4px) translateX(4px);
+}
+.myTable {
+    margin-left: 200px;
+    margin-right: 200px;
+    /*border: 3px solid white;*/
+    border-radius:10px;
+}
+th{
+    text-align: center;
+}
+.myTd {
+    text-align: left;
+    vertical-align: top;
+    /*border: 1px solid white;*/
+    padding: 20px;
+}
+.btTd {
+    text-align: left;
+    vertical-align: top;
+    /*border: 1px solid white;*/
+    padding: 20px;
+}
+
+img {
+    border-radius: 10px;
+}
+
+.rainbow{
+    animation: rainbow 3s infinite;
+}
+
+#b1{
+    -webkit-animation-delay: 1s;
+}
+#b2{
+    -webkit-animation-delay: 2s;
+}
+#b3{
+    -webkit-animation-delay: 3s;
+}
+#b4{
+    -webkit-animation-delay: 4s;
+}
+#b5{
+    -webkit-animation-delay: 5s;
+}
+
+#result {
+    margin-left: 200px;
+    margin-right: 200px;
+    border: 3px solid white;
+    border-radius:10px;
+    border-collapse: collapse;
+    width: 60%;
+}
+#result th {
+    padding-top: 12px;
+    padding-bottom: 12px;
+    background-color: #e00000;
+    animation:bganim 5s infinite;
+    color: white;
+}
+#result td, #customers th {
+    border: 2px solid #ddd;
+    padding: 8px;
+}
+
+#result tr:nth-child(even){background-color: #696969;}
+
+#result tr:hover {background-color: #ff11ff;}
+
+@keyframes rainbow{
+    20%{color: red;}
+    40%{color: yellow;}
+    60%{color: green;}
+    80%{color: blue;}
+    100%{color: orange;}
+}
+@-webkit-keyframes bganim
+{
+    20%{background: red;}
+    40%{background: yellow;}
+    60%{background: green;}
+    80%{background: blue;}
+    100%{background: orange;}
+}
