@@ -5,36 +5,16 @@ import java.util.*;
 @ManagedBean
 @ApplicationScoped
 public class DateTimeBean {
-
-    int text =0;
-
     private Date currentDate;
-    private Locale locale = new Locale("ru");
+    private Locale locale;
     private String dateOut;
-    private int name;
-    private int counter = 0;
-
-    public int getName() {
-        return name;
-    }
-
-    public void setName(int name) {
-        this.name = name;
-    }
-
-    public String getWelcomeMessage() {
-        counter++;
-        return "Hello " + counter;
-    }
 
     public DateTimeBean(){
-
-        name=0;
-
     }
 
     public String getDateOut() {
         currentDate = new Date();
+        locale = new Locale("ru");
         DateFormat dateFormatter;
         dateFormatter = DateFormat.getDateInstance(DateFormat.FULL, locale);
         DateFormat timeFormatter =
@@ -43,11 +23,24 @@ public class DateTimeBean {
         return dateOut;
     }
 
-    public int getText(){
-        text++;
-        return text;
+    public void setDateOut(String dateOut) {
+        this.dateOut = dateOut;
     }
 
 
+    public Date getCurrentDate() {
+        return currentDate;
+    }
 
+    public void setCurrentDate(Date currentDate) {
+        this.currentDate = currentDate;
+    }
+
+    public Locale getLocale() {
+        return locale;
+    }
+
+    public void setLocale(Locale locale) {
+        this.locale = locale;
+    }
 }
