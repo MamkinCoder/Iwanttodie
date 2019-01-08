@@ -8,6 +8,10 @@ html {
 
 }
 
+body {
+    background-color: black;
+}
+
 h2{
     padding-top: 0;
     margin-top: 0;
@@ -107,6 +111,16 @@ h2{
     margin-right: 200px;
     /*border: 3px solid white;*/
     border-radius:10px;
+}
+
+.myTableImaged {
+    margin-left: 200px;
+    margin-right: 200px;
+    /*border: 3px solid white;*/
+    border-radius:10px;
+    background-image: url(#{resource['images/catchill.gif']});
+    background-repeat: repeat-y;
+    background-size: 25% auto;
 }
 th{
     border: 10px solid;

@@ -5,15 +5,17 @@
       xmlns:h="http://xmlns.jcp.org/jsf/html"
       xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
+   <title>90s back baby!</title>
    <h:outputStylesheet library="css" name="mystyle.css" />
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
    <style type="text/css">html{background-image: url("#{resource['images/BTmosh.gif']}"), url("#{resource['images/BTmosh.gif']}"), url("#{resource['images/crt.gif']}") !important;}</style>
 </h:head>
 
 <h:body>
-   <table class="myTable">
+   <table class="myTableImaged">
       <tr>
          <td>
-            <h:form name="myForm">
+            <h:form id="myForm">
                   <table>
                      <tr>
                         <td>
@@ -25,33 +27,33 @@
                            <table>
                               <tr>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="-4"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="-4" onclick="return false;"/>
                                  </td>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="-3"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="-3" onclick="return false;"/>
                                  </td>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="-2"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="-2" onclick="return false;"/>
                                  </td>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="-1"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="-1" onclick="return false;"/>
                                  </td>
                               </tr>
                               <tr>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="0"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="0" onclick="return false;"/>
                                  </td>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="1"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="1" onclick="return false;"/>
                                  </td>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="2"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="2" onclick="return false;"/>
                                  </td>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="3"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="3" onclick="return false;"/>
                                  </td>
                                  <td>
-                                    <h:commandButton styleClass="smallbutton" value="4"></h:commandButton>
+                                    <h:commandButton styleClass="smallbutton" value="4" onclick="return false;"/>
                                  </td>
                               </tr>
                            </table>
@@ -64,9 +66,11 @@
                      </tr>
                      <tr>
                         <td>
-                           <h:inputText title="-5...3" styleClass="custom-input"/>
+                           <h:inputText title="-5...3" styleClass="custom-input" value="#{coordinatesCheckBean.y}" id="y-input">
+                              <f:validateDoubleRange minimum = "-5.0" maximum = "3.0"/></h:inputText>
                         </td>
                      </tr>
+
                      <tr>
                         <td>
                            Изменение R:
@@ -74,7 +78,8 @@
                      </tr>
                      <tr>
                         <td>
-                           <h:selectOneMenu value = "Lololo" styleClass="custom-select">
+                           <h:panelGroup rendered="#{!facesContext.validationFailed}">
+                           <h:selectOneMenu id="r-input" styleClass="custom-select" value="#{coordinatesCheckBean.r}">
                               <f:selectItem itemValue = "1" itemLabel = "1" />
                               <f:selectItem itemValue = "1.5" itemLabel = "1.5" />
                               <f:selectItem itemValue = "2" itemLabel = "2" />
@@ -82,16 +87,30 @@
                               <f:selectItem itemValue = "3" itemLabel = "3" />
 
                            </h:selectOneMenu>
+                              #{facesContext.validationFailed}
+                           </h:panelGroup>
                         </td>
                      </tr>
                      <tr>
-                        <td><p id="error" style="color:red;"></p></td>
+                        <td><h:message id="y-input-message" for = "y-input" style = "color:red" />
+                        <h:outputText id="error" style="color:red;" value = "#{coordinatesCheckBean.toString()}"/>
+                        </td>
+
                      </tr>
+                     <tr>
+                        <td><h:commandButton id = "myButtonId" style="visibility: hidden;">
+                           <f:ajax execute = "x-input y-input r-input" render = "@form" onevent="afterRenderProcessing"/>
+                        </h:commandButton>
+                        </td>
+                     </tr>
+                     <h:inputText id="x-input" value="#{coordinatesCheckBean.x}" style="visibility: hidden; width: 1px;" />
+                     <h:inputText id="validation-failed" value="#{facesContext.validationFailed}" style="visibility: hidden; width: 1px;"/>
                   </table>
+
             </h:form>
          </td>
          <td>
-            <canvas width="700" height="700"></canvas>
+            <canvas id="graph" width="700" height="700"></canvas>
             <script type="text/javascript">
                //random variables
                var lw = 80;
@@ -207,12 +226,48 @@
                //x
                graphics.strokeText("x", canvas.width-bdsize-20, canvas.height/2-15);
                graphics.fillText("x", canvas.width-bdsize-20, canvas.height/2-15);
+
+
+
+               function drawR(){
+
+               }
+
+
+
+
+               var validation;
+
+               function afterRenderProcessing(data){
+                  if (data.status === 'success') {
+                     smallButtonClick();
+                     validation = $('#myForm\\:validation-failed').val();
+                     if (validation=="false"){
+                        drawR();
+                     }
+                  }
+
+               }
+
+               function smallButtonClick() {
+                  $(".smallbutton").click(function () {
+                     var area_x = this.value;
+                     $('#myForm\\:x-input').val(area_x);
+                     $('input').removeClass('pushed');
+                     $(this).addClass('pushed');
+                  });
+               }
+
+               $(document).ready(smallButtonClick);
+
+
+               document.getElementById('graph').addEventListener('click', myFunction);
+
+               function myFunction() {
+                  document.getElementById("myForm:myButtonId").click();
+               }
+
             </script>
-         </td>
-      </tr>
-      <tr>
-         <td>
-            <button class = "submitButton" type="button" id="submit_button">Submit</button>
          </td>
       </tr>
       <tr>
