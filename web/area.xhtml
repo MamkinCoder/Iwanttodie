@@ -3,56 +3,280 @@
         "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml"
       xmlns:h="http://xmlns.jcp.org/jsf/html"
-      xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
-      xmlns:f="http://xmlns.jcp.org/jsf/core" xmlns:c="http://java.sun.com/jsp/jstl/core">
+      xmlns:f="http://xmlns.jcp.org/jsf/core">
 <h:head>
    <title>90s back baby!</title>
    <h:outputStylesheet library="css" name="mystyle.css" />
-   <h:outputStylesheet library="js" name="cat_script.js"/>
+   <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+   <style type="text/css">html{background-image: url("#{resource['images/BTmosh.gif']}"), url("#{resource['images/BTmosh.gif']}"), url("#{resource['images/crt.gif']}") !important;}</style>
 </h:head>
 
-<h:body onload="newCat()">
-   <table class="myTable">
+<h:body>
+   <table class="myTableImaged">
+      <tr>
+         <td>
+            <h:form id="myForm">
+                  <table>
+                     <tr>
+                        <td>
+                           Изменение X:
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <table>
+                              <tr>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="-4" onclick="return false;"/>
+                                 </td>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="-3" onclick="return false;"/>
+                                 </td>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="-2" onclick="return false;"/>
+                                 </td>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="-1" onclick="return false;"/>
+                                 </td>
+                              </tr>
+                              <tr>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="0" onclick="return false;"/>
+                                 </td>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="1" onclick="return false;"/>
+                                 </td>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="2" onclick="return false;"/>
+                                 </td>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="3" onclick="return false;"/>
+                                 </td>
+                                 <td>
+                                    <h:commandButton styleClass="smallbutton" value="4" onclick="return false;"/>
+                                 </td>
+                              </tr>
+                           </table>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                        Изменение Y:
+                     </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <h:inputText title="-5...3" styleClass="custom-input" value="#{coordinatesCheckBean.y}" id="y-input">
+                              <f:validateDoubleRange minimum = "-5.0" maximum = "3.0"/></h:inputText>
+                        </td>
+                     </tr>
+
+                     <tr>
+                        <td>
+                           Изменение R:
+                        </td>
+                     </tr>
+                     <tr>
+                        <td>
+                           <h:panelGroup rendered="#{!facesContext.validationFailed}">
+                           <h:selectOneMenu id="r-input" styleClass="custom-select" value="#{coordinatesCheckBean.r}">
+                              <f:selectItem itemValue = "1" itemLabel = "1" />
+                              <f:selectItem itemValue = "1.5" itemLabel = "1.5" />
+                              <f:selectItem itemValue = "2" itemLabel = "2" />
+                              <f:selectItem itemValue = "2.5" itemLabel = "2.5" />
+                              <f:selectItem itemValue = "3" itemLabel = "3" />
+
+                           </h:selectOneMenu>
+                              #{facesContext.validationFailed}
+                           </h:panelGroup>
+                        </td>
+                     </tr>
+                     <tr>
+                        <td><h:message id="y-input-message" for = "y-input" style = "color:red" />
+                        <h:outputText id="error" style="color:red;" value = "#{coordinatesCheckBean.toString()}"/>
+                        </td>
+
+                     </tr>
+                     <tr>
+                        <td><h:commandButton id = "myButtonId" style="visibility: hidden;">
+                           <f:ajax execute = "x-input y-input r-input" render = "@form" onevent="afterRenderProcessing"/>
+                        </h:commandButton>
+                        </td>
+                     </tr>
+                     <h:inputText id="x-input" value="#{coordinatesCheckBean.x}" style="visibility: hidden; width: 1px;" />
+                     <h:inputText id="validation-failed" value="#{facesContext.validationFailed}" style="visibility: hidden; width: 1px;"/>
+                  </table>
+
+            </h:form>
+         </td>
+         <td>
+            <canvas id="graph" width="700" height="700"></canvas>
+            <script type="text/javascript">
+               //random variables
+               var lw = 80;
+               var step = 5;
+               var cs= 5;
+               var bdsize = 30;
+
+               let canvas = document.querySelector("canvas");
+               var graphics = canvas.getContext("2d");
+
+               //upper triangle rainbow fill
+               var color = 0;
+               for(var y = canvas.height; y > 0; y-=step){
+                  graphics.lineWidth = Math.floor((Math.random() * lw) + 50);
+                  // step = Math.floor((Math.random() * 10) + 1);
+                  cs = Math.floor((Math.random() * 50) + 1);
+                  // if (i==360) i=0;
+                  graphics.strokeStyle = "hsla("+color+", 100%, 50%, 0.5)";
+                  color+=cs;
+                  graphics.beginPath();
+                  graphics.moveTo(0, y);
+                  graphics.lineTo(y, 0);
+                  graphics.stroke();
+               }
+               //lower triangle rainbow fill
+               color=360;
+               for(var x = 0; x &lt; canvas.width; x+=step){
+                  graphics.lineWidth = Math.floor((Math.random() * lw) + 50);
+                  // step = Math.floor((Math.random() * 10) + 1);
+                  cs = Math.floor((Math.random() * 50) + 1);
+                  // if (i==360) i=0;
+                  graphics.strokeStyle = "hsla("+color+", 100%, 50%, 0.5)";
+                  color-=cs;
+                  graphics.beginPath();
+                  graphics.moveTo(x, canvas.height);
+                  graphics.lineTo(canvas.width, x);
+                  graphics.stroke();
+               }
+
+               //filling bg
+               var bgcolor = Math.floor((Math.random() * 360));
+               graphics.fillStyle = "hsla("+bgcolor+", 100%, 50%, 0.65)";
+               graphics.fillRect(bdsize, bdsize, canvas.width - bdsize*2, canvas.height - bdsize*2);
+
+               bgcolor+=180;
+               graphics.fillStyle = "hsla("+bgcolor+", 100%, 50%, 1.0)";
+
+               //triangle in 4th quarter
+               graphics.moveTo(canvas.width/2, canvas.height/2);
+               graphics.lineTo(canvas.width / 2, (canvas.height - 2 * bdsize)/2 * 0.4 + canvas.height/2);
+               graphics.lineTo((canvas.width - 2 * bdsize)/2 * 0.8 + canvas.width/2, canvas.height / 2);
+               graphics.fill();
+
+               //rectangular 3th quarter
+               graphics.fillRect((canvas.width - 2 * bdsize)/2 * 0.2 + bdsize, canvas.height/2, (canvas.width - 2 * bdsize)/2 * 0.8, (canvas.height - 2 * bdsize)/2 * 0.4);
+
+               //circle 1th quarter
+               graphics.beginPath();
+               // center=(150,50) radius=40 angle=0 to ½π
+               graphics.arc(canvas.width/2, canvas.height/2, (canvas.width - 2 * bdsize)/2 * 0.8, 1.5 * Math.PI, 0);
+               graphics.lineTo(canvas.width/2, canvas.height/2);
+               graphics.closePath();
+               graphics.fill();
+
+
+               //drawin graph lines
+               graphics.strokeStyle = "hsla("+bgcolor+", 0%, 0%, 1.0)";
+               graphics.lineWidth =2;
+               graphics.beginPath();
+
+               //xy lines
+               graphics.moveTo(canvas.width/2, bdsize);
+               graphics.lineTo(canvas.width/2, canvas.height-bdsize);
+               graphics.moveTo(bdsize, canvas.height/2);
+               graphics.lineTo(canvas.width-bdsize, canvas.height/2);
+
+               //arrows
+               graphics.moveTo(canvas.width-bdsize-15, canvas.height/2 + 9);
+               graphics.lineTo(canvas.width-bdsize, canvas.height/2);
+               graphics.moveTo(canvas.width-bdsize-15, canvas.height/2 - 9);
+               graphics.lineTo(canvas.width-bdsize, canvas.height/2);
+               graphics.moveTo(canvas.width/2 + 9, bdsize+15);
+               graphics.lineTo(canvas.width/2, bdsize);
+               graphics.moveTo(canvas.width/2 - 9, bdsize+15);
+               graphics.lineTo(canvas.width/2, bdsize);
+
+
+               for (var i = 0.2; i&lt;1.9; i+=0.2)
+               {
+                  graphics.moveTo((canvas.width - 2 * bdsize)/2 * i + bdsize, canvas.height / 2 - 10);
+                  graphics.lineTo((canvas.width - 2 * bdsize)/2 * i + bdsize, canvas.height / 2 + 10);
+               }
+
+               for (var i = 0.2; i&lt;1.9; i+=0.2)
+               {
+                  graphics.moveTo(canvas.width / 2 - 10, (canvas.height - 2 * bdsize)/2 * i + bdsize);
+                  graphics.lineTo(canvas.width / 2 + 10, (canvas.height - 2 * bdsize)/2 * i + bdsize);
+               }
+
+
+               graphics.stroke();
+
+
+               //styling text
+               graphics.strokeStyle = "hsla("+bgcolor+", 0%, 0%, 1.0)";
+               graphics.fillStyle = "hsla("+bgcolor+", 100%, 50%, 1.0)";
+               graphics.lineWidth =1;
+               graphics.font = "20px Monospace";
+
+               //y
+               graphics.strokeText("y", canvas.width/2+15, bdsize+20);
+               graphics.fillText("y", canvas.width/2+15, bdsize+20);
+               //x
+               graphics.strokeText("x", canvas.width-bdsize-20, canvas.height/2-15);
+               graphics.fillText("x", canvas.width-bdsize-20, canvas.height/2-15);
+
+
+
+               function drawR(){
+
+               }
+
+
+
+
+               var validation;
+
+               function afterRenderProcessing(data){
+                  if (data.status === 'success') {
+                     smallButtonClick();
+                     validation = $('#myForm\\:validation-failed').val();
+                     if (validation=="false"){
+                        drawR();
+                     }
+                  }
+
+               }
+
+               function smallButtonClick() {
+                  $(".smallbutton").click(function () {
+                     var area_x = this.value;
+                     $('#myForm\\:x-input').val(area_x);
+                     $('input').removeClass('pushed');
+                     $(this).addClass('pushed');
+                  });
+               }
+
+               $(document).ready(smallButtonClick);
+
+
+               document.getElementById('graph').addEventListener('click', myFunction);
+
+               function myFunction() {
+                  document.getElementById("myForm:myButtonId").click();
+               }
+
+            </script>
+         </td>
+      </tr>
       <tr>
          <td class="myTd" colspan="2">
             <h:form>
                <h:commandButton action = "index" value = "Назад" styleClass="submitButton" />
             </h:form>
-
-         </td>
-         <td>
-+
          </td>
       </tr>
    </table>
-
-
-
-   <h:dataTable value="#{dbBean.allResults}" var="result">
-                <!--styleClass="article-table"-->
-                <!--rules="all" id="result-table"-->
-
-      <h:column>
-         <f:facet name="header">X </f:facet>
-         #{result.x}
-      </h:column>
-      <h:column>
-         <f:facet name="header">Y </f:facet>
-         #{result.y}
-      </h:column>
-      <h:column>
-         <f:facet name="header">R </f:facet>
-         #{result.r}
-      </h:column>
-      <h:column>
-         <f:facet name="header">result </f:facet>
-         #{result.result}
-      </h:column>
-   </h:dataTable>
 </h:body>
-
-
-   <f:view>
-      <h:outputLabel value="AKLSDALKSDKLASDJKAJKLSDJLKAJKLSD"/>
-   </f:view>
 </html>
